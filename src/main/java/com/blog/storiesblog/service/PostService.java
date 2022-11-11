@@ -10,8 +10,8 @@ public interface PostService {
 
     void savePost (Post post);
 
-    Post getPostById (int id);
+    Post getPostById (long id);
 
-    void deletePostById (int id);
+    void deletePostById (long id);
 
 }

@@ -31,7 +31,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPostById(int id) {
+    public Post getPostById(long id) {
         Optional<Post> optional = this.postRepository.findById(id);
         Post post = null;
 
@@ -45,7 +45,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePostById(int id) {
+    public void deletePostById(long id) {
         boolean exists = this.postRepository.existsById(id);
 
         if(!exists){

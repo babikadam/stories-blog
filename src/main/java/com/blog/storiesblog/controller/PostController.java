@@ -47,7 +47,6 @@ public class PostController {
         }
         post.createdOn();
 
-
         postService.savePost(post);
 
         return "redirect:/posts/";
@@ -55,7 +54,7 @@ public class PostController {
 
 
     @GetMapping("/posts/editPost/{id}")
-    public String editPost (@PathVariable(value="id") int id, Model model){
+    public String editPost (@PathVariable(value="id") long id, Model model){
         Post post = postService.getPostById(id);
 
         model.addAttribute("post",post);
@@ -66,7 +65,7 @@ public class PostController {
 
 
     @GetMapping("/posts/deletePost/{id}")
-    public String deletePost (@PathVariable(value="id") int id, Model model){
+    public String deletePost (@PathVariable(value="id") long id, Model model){
         postService.deletePostById(id);
 
         return "redirect:/posts";

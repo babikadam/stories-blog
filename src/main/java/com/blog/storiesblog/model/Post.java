@@ -1,15 +1,11 @@
 package com.blog.storiesblog.model;
 
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -17,7 +13,7 @@ public class Post {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @NotEmpty(message = "Title cannot be empty !")
     @Size(min= 1, max = 50, message = "Maximum size of title is 50 characters !")
@@ -43,18 +39,14 @@ public class Post {
     @Column(name = "content")
     private String content;
 
-//    @OneToMany (mappedBy = "comments");
-//    private List<Comment> comments = new ArrayList<>();
-//
-
     public Post() {
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

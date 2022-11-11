@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Post homepage</title>
+    </head>
+    <body>
+        <h1>Post list</h1>
+<!--    <a th:href="@{}"></a><button> Create a new post</button>-->
+    <p th:if="${listOfPosts.isEmpty()}">
+        <span>Currently there are no posts in this blog !</span>
+    </p>
+
+    <p th:unless="${listOfPosts.size() < 1}">
+
+        <h2 th:each="post : ${listOfPosts}">
+            <span th:text="${post.content}">
+                <br>
+                    <a th:href="@{/posts/##/{id}(id=${post.id})}"><button>Update post</button></a>
+                    <a th:href="@{/posts/##/{id}(id=${post.id})}"><button>Delete post</button></a>
+            </span>
+        </h2>
+    </p>
+    </body>
+</html>

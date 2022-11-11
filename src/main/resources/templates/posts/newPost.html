@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Create a new Post</title>
+    </head>
+    <body>
+        <h1>Add a new Post</h1>
+    <form action="#" th:action="@{/posts/savePost}" th:object="${post}" method="post">
+
+        <input type="text" th:field="*{postTitle}" placeholder="Insert your title here">
+        <p th:if="${#fields.hasErrors('postTitle')}" th:errors="*{postTitle}"></p>
+
+        <input type="text" th:field="*{content}" placeholder="Insert your content here">
+        <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+
+        <input type="text" th:field="*{author}">
+        <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+
+
+        <button type="submit"> Save post</button>
+        <input type="hidden" th:field="*{id}">
+    </form>
+
+        <hr>
+        <a th:href="@{/posts}">Back to Post List</a>
+
+    </body>
+</html>

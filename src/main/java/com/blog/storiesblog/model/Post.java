@@ -1,10 +1,15 @@
 package com.blog.storiesblog.model;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 @Table(name = "posts")
@@ -15,23 +20,25 @@ public class Post {
     private int id;
 
     @NotEmpty(message = "Title cannot be empty !")
-    @NotNull
     @Size(min= 1, max = 50, message = "Maximum size of title is 50 characters !")
     @Column(name = "post_title")
     private String postTitle;
 
-    @NotEmpty(message = "Enter a date of a post")
-    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "post_date")
-    private String postDate;
+    private Date postDate;
 
-    @NotEmpty
-    @NotNull
+    @PrePersist
+    public void createdOn(){
+        postDate = new Date();
+    }
+
+
+    @NotEmpty(message = "User cannot be empty")
     @Column( name = "author")
     private String author;
 
     @NotEmpty(message = " Your post cant be empty !")
-    @NotNull
     @Size(min = 1, max = 2000, message = "Your post size can be 2000 chars long !")
     @Column(name = "content")
     private String content;
@@ -59,11 +66,11 @@ public class Post {
         this.postTitle = postTitle;
     }
 
-    public String getPostDate() {
+    public Date getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(String postDate) {
+    public void setPostDate(Date postDate) {
         this.postDate = postDate;
     }
 
@@ -82,4 +89,8 @@ public class Post {
     public void setContent(String content) {
         this.content = content;
     }
+
+
+
+
 }

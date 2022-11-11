@@ -6,20 +6,24 @@
     </head>
     <body>
         <h1>Post list</h1>
-<!--    <a th:href="@{}"></a><button> Create a new post</button>-->
+    <a th:href="@{/posts/addNewPost}"><button> Create a new post</button></a>
     <p th:if="${listOfPosts.isEmpty()}">
         <span>Currently there are no posts in this blog !</span>
     </p>
 
-    <p th:unless="${listOfPosts.size() < 1}">
-
-        <h2 th:each="post : ${listOfPosts}">
-            <span th:text="${post.content}">
-                <br>
-                    <a th:href="@{/posts/##/{id}(id=${post.id})}"><button>Update post</button></a>
-                    <a th:href="@{/posts/##/{id}(id=${post.id})}"><button>Delete post</button></a>
-            </span>
-        </h2>
-    </p>
+    <span th:unless="${listOfPosts.size() < 1}">
+        <span th:each="post : ${listOfPosts}">
+           <h2 align="center" th:text="${post.postTitle}"></h2>
+            <br>
+            <span th:text="${post.content}"></span>
+            <br>
+            <br>
+                <span th:text="${post.author + ' ' + post.postDate.toLocaleString()}"></span>
+                    <a th:href="@{/posts/editPost/{id}(id=${post.id})}"><button>Update post</button></a>
+                    <a th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button>Delete post</button></a>
+        </span>
+    </span>
     </body>
+    <br>
+    <a th:href="@{/}">Go back to the main page</a>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>User Management System</title>
+  </head>
+  <body>
+    <h1>User Management System</h1>
+    <h2>User list</h2>
+    <p th:if="${listOfUsers.isEmpty()}">
+      There is no user!
+    </p>
+    <table th:unless="${listOfUsers.isEmpty()}">
+
+      <thead>
+      <th>User ID</th>
+      <th>Username</th>
+      <th>Actions</th>
+      </thead>
+
+      <tbody>
+      <tr th:each="user : ${listOfUsers}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td>
+          <a th:href="@{/showFormForDelete/{id}(id=${user.id})}">Delete</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <a th:href="@{/user/index}">Back to user page</a>
+    <a th:href="@{/index}">Back to main page</a>
+  </body>
+</html>

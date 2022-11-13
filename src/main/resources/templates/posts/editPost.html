@@ -1,28 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Edit post</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     </head>
     <body>
-        <h1>Edit post</h1>
+        <h1 class="title is-1" align="center">Edit post</h1>
         <form action="#" th:action="@{/posts/savePost}" th:object="${post}" method="post">
 
-            <input type="text" th:field="*{postTitle}" placeholder="Post the title">
+            <input class="input" type="text" th:field="*{postTitle}" placeholder="Post the title">
             <p th:if="${#fields.hasErrors('postTitle')}" th:errors="*{postTitle}" ></p>
 
-            <input type="text" th:field="*{content}" placeholder="Type the content">
+            <br>
+            <br>
+
+            <textarea class="textarea", rows="10" type="text" th:field="*{content}" placeholder="Type the content"></textarea>
             <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
 
-            <input type="text" th:field="*{author}" placeholder="Author">
+            <br>
+
+            <input class="input" type="text" th:field="*{author}" placeholder="Author">
             <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
 
+            <br>
+            <br>
 
             <input type="hidden" th:field="*{id}"> <!--Add hidden form filled to handle update-->
 
-            <button type="submit"> Update post</button>
+            <button class="button" type="submit"> Update post</button>
 
         </form>
-        <a th:href="@{/posts/}">Back to Post List</a>
+
+        <br>
+
+        <button class="button" type="submit"><a th:href="@{/posts/}">Back to Post List</a></button>
+
     </body>
 </html>

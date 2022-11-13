@@ -3,6 +3,7 @@ package com.blog.storiesblog.service;
 import com.blog.storiesblog.model.Post;
 import com.blog.storiesblog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getAllPosts() {
-        return postRepository.findAll();
+
+        return postRepository.findAll(Sort.by(Sort.Direction.DESC,"postDate"));
     }
 
     @Override

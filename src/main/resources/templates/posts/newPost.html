@@ -2,28 +2,42 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Create a new Post</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     </head>
     <body>
-        <h1>Add a new Post</h1>
+        <h1 class="title is-1" align="center">Add a new Post</h1>
+
+        <br>
+
     <form action="#" th:action="@{/posts/savePost}" th:object="${post}" method="post">
 
-        <input type="text" th:field="*{postTitle}" placeholder="Insert your title here">
+        <input class="input" type="text" th:field="*{postTitle}" placeholder="Insert your title here">
         <p th:if="${#fields.hasErrors('postTitle')}" th:errors="*{postTitle}"></p>
 
-        <input type="text" th:field="*{content}" placeholder="Insert your content here">
+        <br>
+        <br>
+
+
+        <textarea class="textarea", rows="10" th:field="*{content}" placeholder="Insert your content here"></textarea>
         <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
 
-        <input type="text" th:field="*{author}">
+        <br>
+
+        <input class="input" type="text" th:field="*{author}" placeholder="Author name">
         <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
 
+        <br>
 
-        <button type="submit"> Save post</button>
+        <button class="button" type="submit"> Save post</button>
         <input type="hidden" th:field="*{id}">
+
     </form>
 
-        <hr>
-        <a th:href="@{/posts}">Back to Post List</a>
+        <br>
+
+        <button class="button" type="submit"><a th:href="@{/posts}">Back to Post List</a></button>
 
     </body>
 </html>

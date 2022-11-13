@@ -3,7 +3,9 @@ package com.blog.storiesblog.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,17 +19,22 @@ public class Post {
 
     @NotEmpty(message = "Title cannot be empty !")
     @Size(min= 1, max = 50, message = "Maximum size of title is 50 characters !")
-    @Column(name = "post_title")
+    @Column(name = "posttitle")
     private String postTitle;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "post_date")
+    @Column(name = "postdate", nullable = false, updatable = false)
     private Date postDate;
 
     @PrePersist
     public void createdOn(){
         postDate = new Date();
+        updateDate = new Date();
     }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updatedate")
+    private Date updateDate;
 
 
     @NotEmpty(message = "User cannot be empty")
@@ -38,6 +45,10 @@ public class Post {
     @Size(min = 1, max = 2000, message = "Your post size can be 2000 chars long !")
     @Column(name = "content")
     private String content;
+
+
+    @OneToMany(mappedBy = "post")
+    private Collection<Comment> comments;
 
     public Post() {
     }
@@ -82,7 +93,19 @@ public class Post {
         this.content = content;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
 
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
 
+    public Collection<Comment> getComments() {
+        return comments;
+    }
 
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
 }

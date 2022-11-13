@@ -1,6 +1,7 @@
 package com.blog.storiesblog.controller;
 
 import com.blog.storiesblog.model.Post;
+import com.blog.storiesblog.service.CommentService;
 import com.blog.storiesblog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,12 @@ import javax.validation.Valid;
 public class PostController {
 
     PostService postService;
+    CommentService commentService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/posts")
@@ -46,7 +49,6 @@ public class PostController {
             return "/posts/newPost";
         }
         post.createdOn();
-
         postService.savePost(post);
 
         return "redirect:/posts/";
@@ -71,5 +73,6 @@ public class PostController {
         return "redirect:/posts";
 
     }
+
 
 }

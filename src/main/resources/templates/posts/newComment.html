@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create a new Comment</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<h1 class="title is-1" align="center">Add a new Comment</h1>
+
+<br>
+
+<form action="#" th:action="@{/comment/{id}(id=${comment.id})}" th:object="${comment}" method="post">
+
+
+
+  <textarea class="textarea" rows="10" th:field="*{commentContent}" placeholder="Insert your comment here"></textarea>
+  <p th:if="${#fields.hasErrors('commentContent')}" th:errors="*{commentContent}"></p>
+
+  <br>
+
+  <input class="input" type="text" th:field="*{author}" placeholder="Author name">
+  <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+
+  <br>
+
+  <button class="button" type="submit">Save post</button>
+  <input type="hidden" th:field="*{post.id}">
+
+</form>
+
+<br>
+
+<button class="button" type="submit"><a th:href="@{/posts}">Back to Post List</a></button>
+
+</body>
+</html>

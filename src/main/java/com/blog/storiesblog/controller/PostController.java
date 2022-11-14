@@ -29,6 +29,7 @@ public class PostController {
     @GetMapping("/posts")
     public String postHome (Model model){
         model.addAttribute("listOfPosts", postService.getAllPosts());
+        model.addAttribute("listOfComments", commentService.getAllComments());
         return "/posts/index";
 
     }

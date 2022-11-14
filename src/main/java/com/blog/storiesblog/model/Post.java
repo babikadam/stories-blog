@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "posts")
 public class Post {
-
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
@@ -46,11 +46,12 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
-    private Collection<Comment> comments;
 
     public Post() {
+
     }
 
     public long getId() {
@@ -101,11 +102,11 @@ public class Post {
         this.updateDate = updateDate;
     }
 
-    public Collection<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Collection<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 }

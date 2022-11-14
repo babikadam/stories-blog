@@ -17,10 +17,10 @@ public class Comment {
     @NotEmpty(message = "post cannot be empty !")
     @Size(max = 2000, message = "Maximum of 2000 chars is allowed !")
     @Column(name = "comment")
-    private String comment;
+    private String commentContent;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name ="commentdate", nullable = false, updatable = false)
+    @Column(name ="commentdate", updatable = false)
     private Date commentDate;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -28,7 +28,8 @@ public class Comment {
     private Date updateDate;
 
     @PrePersist
-    public void updatedOn(){
+    public void createdOn(){
+        commentDate = new Date();
         updateDate = new Date();
     }
 
@@ -38,7 +39,7 @@ public class Comment {
 
 
     @NotNull
-    @ManyToOne
+    @ManyToOne (fetch =FetchType.EAGER)
     @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     private Post post;
 
@@ -54,12 +55,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getCommentContent() {
+        return commentContent;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
     }
 
     public Date getCommentDate() {
@@ -84,5 +85,13 @@ public class Comment {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

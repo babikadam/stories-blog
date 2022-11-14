@@ -55,4 +55,5 @@ public class PostServiceImpl implements PostService {
         }
         this.postRepository.deleteById(id);
     }
+
 }

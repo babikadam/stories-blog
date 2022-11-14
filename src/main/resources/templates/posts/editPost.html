@@ -8,6 +8,7 @@
     </head>
     <body>
         <h1 class="title is-1" align="center">Edit post</h1>
+
         <form action="#" th:action="@{/posts/savePost}" th:object="${post}" method="post">
 
             <input class="input" type="text" th:field="*{postTitle}" placeholder="Post the title">
@@ -16,7 +17,7 @@
             <br>
             <br>
 
-            <textarea class="textarea", rows="10" type="text" th:field="*{content}" placeholder="Type the content"></textarea>
+            <textarea class="textarea" rows="10" type="text" th:field="*{content}" placeholder="Type the content"></textarea>
             <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
 
             <br>

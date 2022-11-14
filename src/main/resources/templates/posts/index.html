@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Post homepage</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-</head>
-<body>
-<h1 class="title has-text-centered">NAME OF THE WEB BLOG GOES HERE</h1>
-<br>
-<a th:href="@{/posts/addNewPost}"><button class="button is-success button is-centered "> Create a new post</button></a>
-<p th:if="${listOfPosts.isEmpty()}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Post homepage</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    </head>
+
+    <body>
+    <h1 class="title has-text-centered">NAME OF THE WEB BLOG GOES HERE</h1>
     <br>
-    <span>Currently there are no posts in this blog !</span>
-</p>
-<br>
-<span th:unless="${listOfPosts.size() < 1}">
-            <span th:each="post : ${listOfPosts}">
-                <br>
-                 <h2 class="notification is-info has-text-centered title" th:text="${post.postTitle}"></h2>
-                <br>
-                <span class="has-text-justified" th:text="${post.content}"></span>
-                <br>
-                <br>
-                <span th:text="'Author: ' + ${post.author}"></span>
-                <br>
-                <span th:text="'Posted: ' + ${post.postDate.toLocaleString()}"></span>
-                 <br>
-                <span th:text="'Last Updated: ' + ${post.updateDate.toLocaleString()}"></span>
-                 <br>
-                        <a th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning">Update post</button></a>
-                        <a th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger">Delete post</button></a>
-                        <a th:href="@{/comment/{id}(id=${post.id})}"><button class="button is-link"> Add a comment </button></a>
-                <hr>
-            <h1 class="notification is-warning"> Comment List: </h1>
-        <span th:each="comment : ${listOfComments}">
-                <span th:if="${post.id == comment.post.getId()}">
-                        <span th:text="${comment.author} + ': ' + ${comment.commentContent}"></span>
+    <a th:href="@{/posts/addNewPost}"><button class="button is-success button is-centered "> Create a new post</button></a>
+    <p th:if="${listOfPosts.isEmpty()}">
+        <br>
+        <span>Currently there are no posts in this blog !</span>
+    </p>
+    <br>
+
+                    <!--    FOR THE LIST OF POSTS-->
+
+    <span th:unless="${listOfPosts.size() < 1}">
+                <span th:each="post : ${listOfPosts}">
+                    <br>
+                     <h2 class="notification is-info has-text-centered title" th:text="${post.postTitle}"></h2>
+                    <br>
+                    <span class="has-text-justified" th:text="${post.content}"></span>
+                    <br>
+                    <br>
+                    <span th:text="'Author: ' + ${post.author}"></span>
+                    <br>
+                    <span th:text="'Posted: ' + ${post.postDate.toLocaleString()}"></span>
+                     <br>
+                    <span th:text="'Last Updated: ' + ${post.updateDate.toLocaleString()}"></span>
+                     <br>
+                            <a th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning">Update post</button></a>
+                            <a th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger">Delete post</button></a>
+                            <a th:href="@{/comment/{id}(id=${post.id})}"><button class="button is-link"> Add a comment </button></a>
+                    <hr>
+
+                        <!--   FOR THE COMMENT LIST                  -->
+
+                <h1 class="notification is-warning"> Comment List: </h1>
+            <span th:each="comment : ${listOfComments}">
+
+                    <span th:if="${post.id == comment.post.getId()}">  <!-- THIS CONDITION CHECK THE POST.ID IS EQUAL TO COMMENT ID SO THAT IT ONLY SHOWS COMMENTS FOR SPECIFIC POST -->
+                            <span class="sub-title bold" th:text="'User: ' + ${comment.author}"></span>
+
                         <br>
-                        </span>
-                </span>
+                            <span th:text="'Commented on: ' + ${comment.commentDate.toLocaleString()}"></span>
+                        <hr>
+                            <span th:text="${comment.commentContent}"></span>
+                        <hr>
+
+                            <a th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning">Update comment</button></a>
+                            <a th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger">Delete comment</button></a>
+                            <br>
+                            <br>
+
+                            </span>
+                    </span>
+            </span>
         </span>
-    </span>
-</body>
-<br>
-<a th:href="@{/}">Go back to the main page</a>
+    </body>
+    <br>
+    <a th:href="@{/}">Go back to the main page</a>
 </html>

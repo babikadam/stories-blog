@@ -64,7 +64,6 @@ public class CommentController {
     @GetMapping("/comment/{id}")
     public String showComment(@PathVariable Long id, Model model) {
 
-
         Post post = postService.getPostById(id);
         Comment comment = new Comment();
         comment.setPost(post);
@@ -87,6 +86,26 @@ public class CommentController {
             return "redirect:/posts/";
         }
     }
+
+    @GetMapping("/posts/editComment/{id}")
+    public String editComment(@PathVariable(value="id") long id, Model model){
+        Comment comment = commentService.getCommentById(id);
+
+        model.addAttribute("comment",comment);
+
+        return "/posts/editComment";
+
+    }
+
+
+    @GetMapping("/posts/deleteComment/{id}")
+    public String deleteComment(@PathVariable(value="id") long id, Model model){
+        commentService.deleteCommentById(id);
+
+        return "redirect:/posts";
+
+    }
+
 
 
 }

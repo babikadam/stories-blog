@@ -3,6 +3,8 @@ package com.blog.storiesblog.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
+
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -54,4 +56,5 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

@@ -21,7 +21,8 @@ public class WebSecurityConfig {
     private DataSource dataSource;
 
     private static final String[] WHITELIST = {
-            "/"
+            "/",
+            "/register"
     };
 
     @Bean
@@ -29,7 +30,7 @@ public class WebSecurityConfig {
 
         http    .authorizeRequests()
                 .antMatchers(WHITELIST).permitAll()
-                .antMatchers(HttpMethod.GET, "/post/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/posts/*").permitAll()
                 .anyRequest().authenticated();
 
         http    .formLogin()
@@ -37,7 +38,7 @@ public class WebSecurityConfig {
                 .loginProcessingUrl("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/posts/index", true)
                 .failureUrl("/login?error")
                 .permitAll()
                 .and()
@@ -48,15 +49,10 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
-//    }
-
     @Bean
     public UserDetailsService userDetailsService() {
     return new CustomUserDetailsService();
-}
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

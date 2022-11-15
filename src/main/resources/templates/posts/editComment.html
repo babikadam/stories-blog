@@ -26,9 +26,13 @@
 
         <br>
 
-        <input class="input" type="text" th:field="*{author}" placeholder="Author">
-        <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+<!--        <input class="input" type="text" th:field="*{author}" placeholder="Author">-->
+<!--        <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>-->
+        <span th:text="' Author: ' + *{author}" ></span>
+        <input type="text" name="author" value="user" th:value="*{author}" style="visibility: hidden">
 
+        <br>
+        <br>
 
         <input type="hidden" th:field="*{post.id}"> <!--Add hidden form filled to handle update-->
 

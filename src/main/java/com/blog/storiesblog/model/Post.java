@@ -53,12 +53,13 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
-////    @NotNull
-//    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+//   @NotNull
+//   @ManyToOne
+//   @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+//   private User user;
 ////    @NotEmpty(message = "User cannot be empty")
 //////    @JoinColumn( name = "author", referencedColumnName = "username", nullable = false)
-   private User user;
+
 
     public Post() {
 

@@ -31,8 +31,8 @@
 
         <br>
 
-        <span th:text="' Author: ' + ${authUsername}" ></span>
-        <input type="text" name="author" value="user" th:value="${authUsername}" style="visibility: hidden">
+        <span th:text="' Author: ' + ${#authentication.name}" ></span>
+        <input type="text" name="author" value="user" th:value="${#authentication.name}" style="visibility: hidden">
                 <!--        <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>-->
 
         <br>
@@ -44,7 +44,9 @@
 
         <br>
 
-        <button class="button" type="submit"><a th:href="@{/posts}">Back to Post List</a></button>
+        <button class="button" type="submit">
+            <a th:href="@{/posts}">Back to Post List</a>
+        </button>
 
     </body>
 </html>

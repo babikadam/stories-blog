@@ -32,9 +32,13 @@
                         <a sec:authorize="!isAuthenticated()" th:href="@{/register}" class="navbar-item">
                             <button class="button is-light">Register</button>
                         </a>
-                        <a sec:authorize="isAuthenticated()" th:href="@{/user/userManagement}" class="navbar-item">
-                            <button class="button is-light">User management</button>
-                        </a>
+<!--                        Hiding user management for all except ADMIN-->
+                        <div th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}">
+                            <a th:href="@{/user/userManagement}" class="navbar-item">
+                                <button class="button is-light">User management</button>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>

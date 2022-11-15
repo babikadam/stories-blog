@@ -40,13 +40,23 @@ public class CustomUserServiceImpl implements CustomUserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> optionalUser = userRepository.findByUsername(username);
 
-        if(!user.isPresent()) {
+
+        if(!optionalUser.isPresent()) {
             throw new UsernameNotFoundException("User not found");
-        } else {
-            return user.get();
         }
+            User user = optionalUser.get();
+
+            List<GrantedAuthority> grantedAuthorities = user
+                    .getRoles()
+                    .stream()
+                    .map(role -> new SimpleGrantedAuthority((role.getRole())))
+                    .collect(Collectors.toList());
+        System.err.printf(user.getUsername() +"\n" +  user.getPassword() +"\n" + grantedAuthorities);
+            return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                                                                          user.getPassword(), grantedAuthorities);
+
 
     }
 
@@ -81,7 +91,11 @@ public class CustomUserServiceImpl implements CustomUserService {
 
     @Override
     public boolean isUserInRole(String role) {
-        return false;
+        if (role.equals("ADMIN")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

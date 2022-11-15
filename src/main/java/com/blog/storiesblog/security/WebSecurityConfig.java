@@ -33,7 +33,8 @@ public class WebSecurityConfig {
 
         http
                 .authorizeRequests()
-                .antMatchers(WHITELIST).permitAll()
+                .antMatchers(WHITELIST)
+                .permitAll()
 //                .antMatchers(HttpMethod.GET, "/posts/savePost/**", "/posts/editPost/**").hasRole("USER")
                 .anyRequest().authenticated();
 

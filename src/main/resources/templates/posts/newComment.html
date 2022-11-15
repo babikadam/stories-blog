@@ -26,8 +26,10 @@
 
   <br>
 
-  <input class="input" type="text" th:field="*{author}" placeholder="Author name">
-  <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+  <span th:text="' Author: ' + ${#authentication.name}" ></span>
+  <input type="text" name="author" value="user" th:value="${#authentication.name}" style="visibility: hidden">
+<!--  <input class="input" type="text" th:field="*{author}" placeholder="Author name">-->
+<!--  <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>-->
 
   <br>
 

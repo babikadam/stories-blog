@@ -1,7 +1,6 @@
 package com.blog.storiesblog.controller;
 
 import com.blog.storiesblog.model.Post;
-import com.blog.storiesblog.model.User;
 import com.blog.storiesblog.service.CommentService;
 import com.blog.storiesblog.service.CustomUserService;
 import com.blog.storiesblog.service.PostService;
@@ -15,9 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.security.Principal;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 public class PostController {
@@ -44,32 +40,26 @@ public class PostController {
     }
 
     @GetMapping("/posts/addNewPost")
-//    @PreAuthorize("hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
-    public String addNewPost (Model model,
-                              Principal principal) {
-        String authUsername = principal.getName();
-        System.err.println(userService.isUserInRole("ADMIN"));
-        if (userService.isAllowed(principal.getName(), principal)) {
-            //returning true if ADMIN access
-//            String role = "ADMIN";
-            model.addAttribute("post", new Post());
-            model.addAttribute("authUsername", authUsername);
+    public String addNewPost (Model model
+//            ,Principal principal
+    ) {
+//        String authUsername = principal.getName();
 
-            return "/posts/newPost";
-        }
-        return "You are not authorized!";
+        model.addAttribute("post", new Post());
+//        model.addAttribute("authUsername", authUsername);
+
+        return "/posts/newPost";
     }
 
 
 
+
     @PostMapping("/posts/savePost")
-//    @PreAuthorize("userService.hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
     public String savePost (@Valid @ModelAttribute Post post,
-                            BindingResult bindingResult, Principal principal){
+                            BindingResult bindingResult){
 
-
-        //checking input
-        System.err.println("POST post: " + post);           // debug
+        //checking input for development only
+        System.err.println("POST post: " + post);
         if(bindingResult.hasErrors()){
             return "/posts/newPost";
         }
@@ -80,20 +70,18 @@ public class PostController {
     }
 
     @GetMapping("/posts/editPost/{id}")
-//    @PreAuthorize("hasRole('ADMIN_ROLE')")
-    public String editPost (@PathVariable(value="id") long id, Model model, Principal principal){
-        String authUsername = principal.getName();
+    public String editPost (@PathVariable(value="id") long id, Model model){
+//        String authUsername = principal.getName();
         Post post = postService.getPostById(id);
 
-        model.addAttribute("post",post);
-        model.addAttribute("authUsername",authUsername);
+        model.addAttribute("post", post);
+//        model.addAttribute("authUsername",authUsername);
         return "/posts/editPost";
 
     }
 
 
     @GetMapping("/posts/deletePost/{id}")
-//    @PreAuthorize("hasRole('ADMIN_ROLE')")
     public String deletePost (@PathVariable(value="id") long id, Model model){
         postService.deletePostById(id);
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-                xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,11 +29,12 @@
 
             <br>
 
-            <span th:text="' Author: ' + ${authUsername}" ></span>
-            <input type="text" name="author" value="user" th:value="${authUsername}" style="visibility: hidden">
+<!--            <span th:text="' Author: ' + ${#authentication.name}" ></span>-->
+<!--            <input type="text" name="author" value="user" th:value="${#authentication.name}" style="visibility: hidden">-->
 
-<!--            <input class="input" type="text" th:field="*{author}" placeholder="Author">-->
-<!--            <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>-->
+            <span th:text="' Author: ' + *{author}" ></span>
+            <input type="text" name="author" value="user" th:value="*{author}" style="visibility: hidden">
+<!--            <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>&ndash;&gt;-->
 
             <br>
             <br>
@@ -47,7 +47,9 @@
 
         <br>
 
-        <button class="button" type="submit"><a th:href="@{/posts/}">Back to Post List</a></button>
+        <button class="button" type="submit">
+            <a th:href="@{/posts/}">Back to Post List</a>
+        </button>
 
     </body>
 </html>

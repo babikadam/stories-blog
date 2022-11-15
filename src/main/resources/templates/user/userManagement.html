@@ -22,16 +22,15 @@
       <tbody>
       <tr th:each="user : ${listOfUsers}">
         <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
-        <td th:text="${user.role.name}"></td>
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getRoles()}"></td>
         <td>
-          <a th:href="@{/showFormForDelete/{id}(id=${user.id})}">Delete</a>
+          <a th:href="@{/user/editUser/{id}(id=${user.id})}">Edit User</a>
+          <a th:href="@{/user/deleteUser/{id}(id=${user.id})}">Delete User</a>
         </td>
       </tr>
       </tbody>
     </table>
-
-    <a th:href="@{/user/index}">Back to user page</a>
-    <a th:href="@{/index}">Back to main page</a>
+    <a th:href="@{/}">Back to main page</a>
   </body>
 </html>

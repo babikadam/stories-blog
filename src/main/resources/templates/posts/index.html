@@ -26,7 +26,7 @@
         <p class="subtitle">
             Rated as best blog ever!
         </p>
-        <div sec:authorize="isAuthenticated()">
+        <div sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/posts/addNewPost}"><button class="button is-link button is-centered "> Create a new post</button></a>
         </div>
     </div>
@@ -77,14 +77,15 @@
                      <br>
                     <!--                    Restricting visiting users not to see post buttons  -->
                     <div sec:authorize="isAuthenticated()">
-                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning is-small">Update post</button></a>
-                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger is-small">Delete post</button></a>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning is-small">Update post</button></a>
+                            <a sec:authorize="hasRole('ADMIN')" th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger is-small">Delete post</button></a>
                             <a th:href="@{/comment/{id}(id=${post.id})}"><button class="button is-link is-small"> Add a comment </button></a>
                     </div>
                     <!--   End of visibility posts buttons restriction             -->
                         <hr>
 
                     <!--                    Restricting visiting users not to see comments -->
+
                     <div sec:authorize="isAuthenticated()">
 
                         <!--   FOR THE COMMENT LIST                  -->
@@ -108,10 +109,10 @@
 
                         <br>
 
-                        <a th:if="${comment.author == #authentication.name} or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
+                        <a th:if="${comment.author == #authentication.name} or ${#authorization.expression('hasRole(''ADMIN'')')}"
                            th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning is-small">Update comment</button></a>
 
-                        <a th:if="${comment.author == #authentication.name } or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
+                        <a th:if="${comment.author == #authentication.name } or ${#authorization.expression('hasRole(''ADMIN'')')}"
                            th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger is-small">Delete comment</button></a>
 
                         <hr>

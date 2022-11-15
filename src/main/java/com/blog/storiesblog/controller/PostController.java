@@ -42,7 +42,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/addNewPost")
-    @PreAuthorize("hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
+//    @PreAuthorize("hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
     public String addNewPost (Model model,
                               Principal principal){
         String authUsername = "anonymousUser";
@@ -57,7 +57,7 @@ public class PostController {
     }
 
     @PostMapping("/posts/savePost")
-    @PreAuthorize("userService.hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
+//    @PreAuthorize("userService.hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
     public String savePost (@Valid @ModelAttribute Post post,
                             BindingResult bindingResult){
         if(bindingResult.hasErrors()){
@@ -70,19 +70,20 @@ public class PostController {
     }
 
     @GetMapping("/posts/editPost/{id}")
-    @PreAuthorize("hasRole('ADMIN_ROLE')")
-    public String editPost (@PathVariable(value="id") long id, Model model){
+//    @PreAuthorize("hasRole('ADMIN_ROLE')")
+    public String editPost (@PathVariable(value="id") long id, Model model, Principal principal){
+        String authUsername = principal.getName();
         Post post = postService.getPostById(id);
 
         model.addAttribute("post",post);
-
+        model.addAttribute("authUsername",authUsername);
         return "/posts/editPost";
 
     }
 
 
     @GetMapping("/posts/deletePost/{id}")
-    @PreAuthorize("hasRole('ADMIN_ROLE')")
+//    @PreAuthorize("hasRole('ADMIN_ROLE')")
     public String deletePost (@PathVariable(value="id") long id, Model model){
         postService.deletePostById(id);
 

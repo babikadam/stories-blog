@@ -1,30 +1,20 @@
 package com.blog.storiesblog.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "role")
-public class Role {
+@Table (name = "roles")
+public class Role implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @NotEmpty
-    @NotNull
-    @Column(name = "role_name", nullable = false)
+    @Column
     private String name;
 
-    public Role() { }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public Role() {
     }
 
     public String getName() {
@@ -34,4 +24,6 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

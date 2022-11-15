@@ -6,11 +6,20 @@
 </head>
 <body>
 <form action="#" th:action="@{/register}" th:object="${user}" method="post">
-    <input type="email" name="email" th:field="*{email}" id="email" placeholder="User email" required="true" autofocus="true"/>
-    <input type="text" name="username" th:field="*{username}" id="username" placeholder="Username" required="true"/>
-    <input type="password" name="password" th:field="*{password}" id="password" placeholder="Password" required="true"/>
-    <button type="submit">Submit</button>
-
+    <ul>
+        <li>
+            <input type="email" name="email" th:field="*{email}" id="email" placeholder="User email" required="true" autofocus="true"/>
+        </li>
+        <li>
+            <input type="text" name="username" th:field="*{username}" id="username" placeholder="Username" required="true"/>
+        </li>
+        <li>
+            <input type="password" name="password" th:field="*{password}" id="password" placeholder="Password" required="true"/>
+        </li>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </ul>
 </form>
 </body>
 </html>

@@ -1,28 +1,25 @@
 package com.blog.storiesblog.security;
 
 
-import com.blog.storiesblog.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.blog.storiesblog.service.CustomUserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.sql.DataSource;
-
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
-
-    @Autowired
-    private DataSource dataSource;
 
     private static final String[] WHITELIST = {
             "/",
-            "/register"
+            "/register",
+            "/posts"
     };
 
     @Bean
@@ -38,7 +35,7 @@ public class WebSecurityConfig {
                 .loginProcessingUrl("/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/posts/index", true)
+                .defaultSuccessUrl("/posts", true)
                 .failureUrl("/login?error")
                 .permitAll()
                 .and()
@@ -51,7 +48,7 @@ public class WebSecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-    return new CustomUserDetailsService();
+    return new CustomUserServiceImpl();
     }
 
     @Bean

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+                xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,8 +26,9 @@
 
         <br>
 
-        <input class="input" type="text" th:field="*{author}" placeholder="Author name">
-        <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>
+        <span th:text="' Author: ' + ${authUsername}" ></span>
+        <input type="text" name="author" value="user" th:value="${authUsername}" style="visibility: hidden">
+                <!--        <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></p>-->
 
         <br>
 

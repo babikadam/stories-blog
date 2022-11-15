@@ -15,6 +15,7 @@
       <thead>
       <th>User ID</th>
       <th>Username</th>
+      <th>Role</th>
       <th>Actions</th>
       </thead>
 
@@ -22,6 +23,7 @@
       <tr th:each="user : ${listOfUsers}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
+        <td th:text="${user.role.name}"></td>
         <td>
           <a th:href="@{/showFormForDelete/{id}(id=${user.id})}">Delete</a>
         </td>

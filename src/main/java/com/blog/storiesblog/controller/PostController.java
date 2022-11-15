@@ -2,8 +2,10 @@ package com.blog.storiesblog.controller;
 
 import com.blog.storiesblog.model.Post;
 import com.blog.storiesblog.service.CommentService;
+import com.blog.storiesblog.service.CustomUserServiceImpl;
 import com.blog.storiesblog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,17 +15,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class PostController {
 
     PostService postService;
     CommentService commentService;
+    CustomUserServiceImpl userService;
 
     @Autowired
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService,
+                          CommentService commentService,
+                          CustomUserServiceImpl userService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
     @GetMapping("/posts")
@@ -35,16 +42,24 @@ public class PostController {
     }
 
     @GetMapping("/posts/addNewPost")
-    public String addNewPost (Model model){
+    @PreAuthorize("hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
+    public String addNewPost (Model model,
+                              Principal principal){
+        String authUsername = "anonymousUser";
+        if (principal != null) {
+            authUsername = principal.getName();
+        }
 
         model.addAttribute("post", new Post());
+        model.addAttribute("authUsername", authUsername);
+
         return "/posts/newPost";
     }
 
     @PostMapping("/posts/savePost")
+    @PreAuthorize("userService.hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
     public String savePost (@Valid @ModelAttribute Post post,
                             BindingResult bindingResult){
-
         if(bindingResult.hasErrors()){
             return "/posts/newPost";
         }
@@ -54,8 +69,8 @@ public class PostController {
         return "redirect:/posts/";
     }
 
-
     @GetMapping("/posts/editPost/{id}")
+    @PreAuthorize("hasRole('ADMIN_ROLE')")
     public String editPost (@PathVariable(value="id") long id, Model model){
         Post post = postService.getPostById(id);
 
@@ -67,12 +82,12 @@ public class PostController {
 
 
     @GetMapping("/posts/deletePost/{id}")
+    @PreAuthorize("hasRole('ADMIN_ROLE')")
     public String deletePost (@PathVariable(value="id") long id, Model model){
         postService.deletePostById(id);
 
         return "redirect:/posts";
 
     }
-
 
 }

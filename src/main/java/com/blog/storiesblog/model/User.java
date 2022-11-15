@@ -1,7 +1,6 @@
 package com.blog.storiesblog.model;
 
-
-import com.blog.storiesblog.repository.UserRepository;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,13 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.Collection;
 
-
+//@Data fixed getting data to post controller
+@Data
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -27,6 +28,16 @@ public class User implements UserDetails {
     @Column (name = "email", nullable = false)
     @Email
     private String email;
+
+//    @OneToMany(mappedBy = "user")
+//    private Collection<Post> posts;
+
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
+    )
+    private Collection<Role> roles;
 
     public User () { }
 
@@ -87,12 +98,6 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "name")}
-    )
-        private Collection<Role> roles;
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;

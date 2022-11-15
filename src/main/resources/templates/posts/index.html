@@ -2,17 +2,57 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
                 xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
+
+    <style>
+        .wr {
+            word-wrap: break-word;
+            width: 200px;
+        }
+    </style>
+
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Homepage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
 </head>
 <body>
-    <h1 class="title has-text-centered">NAME OF THE WEB BLOG GOES HERE</h1>
-    <br>
-    <div sec:authorize="isAuthenticated()">
-    <a th:href="@{/posts/addNewPost}"><button class="button is-success button is-centered "> Create a new post</button></a>
+
+<section class="hero is-primary">
+    <div class="hero-body has-text-centered">
+        <p class="title">
+            The magnificent blog of Adam & Ante
+        </p>
+        <p class="subtitle">
+            Rated as best blog ever!
+        </p>
+        <div sec:authorize="isAuthenticated()">
+            <a th:href="@{/posts/addNewPost}"><button class="button is-link button is-centered "> Create a new post</button></a>
+        </div>
     </div>
+    <div id="navbarMenuHeroA" class="navbar-menu">
+        <div class="navbar-end">
+            <a sec:authorize="isAuthenticated()" class="navbar-item" type="submit">
+                <form action="#" th:action="@{/logout}" method="post">
+                    <button class="button is-light" type="submit">Logout</button>
+                </form>
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="navbar-item">
+                <button class="button is-light"> Login </button>
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/register}" class="navbar-item">
+                <button class="button is-light">Register</button>
+            </a>
+            <a th:href="@{/}" class="navbar-item" ><button class="button is-light">Go back to the main page</button></a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <div style="height:200px;">
+    <br>
+
+
     <p th:if="${listOfPosts.isEmpty()}">
         <br>
         <span>Currently there are no posts in this blog !</span>
@@ -26,7 +66,7 @@
                     <br>
                      <h2 class="notification is-info has-text-centered title" th:text="${post.postTitle}"></h2>
                     <br>
-                    <span class="has-text-justified" th:text="${post.content}"></span>
+                    <span class="has-text-justified wr" th:text="${post.content}"></span>
                     <br>
                     <br>
                     <span th:text="'Author: ' + ${post.getAuthor()}"></span>
@@ -37,9 +77,9 @@
                      <br>
 <!--                    Restricting visiting users not to see post buttons  -->
                     <div sec:authorize="isAuthenticated()">
-                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning">Update post</button></a>
-                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger">Delete post</button></a>
-                            <a th:href="@{/comment/{id}(id=${post.id})}"><button class="button is-link"> Add a comment </button></a>
+                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning is-small">Update post</button></a>
+                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger is-small">Delete post</button></a>
+                            <a th:href="@{/comment/{id}(id=${post.id})}"><button class="button is-link is-small"> Add a comment </button></a>
                     </div>
                     <!--   End of visibility posts buttons restriction             -->
                         <hr>
@@ -48,34 +88,36 @@
                     <div sec:authorize="isAuthenticated()">
 
                         <!--   FOR THE COMMENT LIST                  -->
-                <h1 class="notification is-warning"> Comment List: </h1>
+                <p class="subtitle notification is-warning"> Comment List: </p>
             <span th:each="comment : ${listOfComments}">
 
                     <span th:if="${post.id == comment.post.getId()}">  <!-- THIS CONDITION CHECK THE POST.ID IS EQUAL TO COMMENT ID SO THAT IT ONLY SHOWS COMMENTS FOR SPECIFIC POST -->
-                            <span class="sub-title bold" th:text="'User: ' + ${comment.author}"></span>
+
+                        <span class="subtitle bold" th:text="'User: ' + ${comment.author}"></span>
 
                         <br>
-                            <span th:text="'Commented on: ' + ${comment.commentDate.toLocaleString()}"></span>
-                        <hr>
-                            <blockquote th:text="${comment.commentContent}"></blockquote>
-                        <hr>
 
+                        <span class="summary wr" th:text="${comment.commentContent}"></span>
+
+                        <br>
+                        <br>
+
+                        <p th:text="'Commented on: ' + ${comment.commentDate.toLocaleString()}"></p>
+
+                        <br>
                             <a th:if="${comment.author == #authentication.name} or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
-                               th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning">Update comment</button></a>
+                               th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning is-small">Update comment</button></a>
 
                             <a th:if="${comment.author == #authentication.name } or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
-                               th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger">Delete comment</button></a>
-
-                            <br>
-                            <br>
-
+                               th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger is-small">Delete comment</button></a>
+                        <hr>
                             </span>
                     </span>
                 </div>   <!-- end of comments visibility restrictions -->
                 </span>
             </span>
     </span>
+    </div>
+    </div>
     </body>
-    <br>
-    <a th:href="@{/}">Go back to the main page</a>
 </html>

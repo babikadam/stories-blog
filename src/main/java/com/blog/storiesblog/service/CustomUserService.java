@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 public interface CustomUserService extends UserDetailsService {
@@ -15,5 +16,13 @@ public interface CustomUserService extends UserDetailsService {
     boolean isAllowed(String username, Principal principal);
 
     public boolean isUserInRole(String role);
+
+    List<User> getAllUsers();
+
+    void deleteUserById (long id);
+
+    User getUserById (long id);
+
+    void saveUser (User user);
 
 }

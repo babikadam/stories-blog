@@ -1,10 +1,12 @@
 package com.blog.storiesblog.service;
 
+import com.blog.storiesblog.model.Comment;
 import com.blog.storiesblog.model.Role;
 import com.blog.storiesblog.model.User;
 import com.blog.storiesblog.repository.RoleRepository;
 import com.blog.storiesblog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -80,6 +82,41 @@ public class CustomUserServiceImpl implements CustomUserService {
     @Override
     public boolean isUserInRole(String role) {
         return false;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public void deleteUserById(long id) {
+        boolean exists = this.userRepository.existsById(id);
+
+        if(!exists){
+            throw new IllegalStateException("Comment with id: " + id + " does not exist !");
+        }
+        this.userRepository.deleteById(id);
+    }
+
+    @Override
+    public User getUserById(long id) {
+        Optional<User> optional = this.userRepository.findById(id);
+        User user = null;
+
+        if(optional.isPresent()){
+            user = optional.get();
+        } else {
+            throw new RuntimeException("User with that id: " + id + " does not exist !");
+        }
+        return  user;
+
+    }
+
+    @Override
+    public void saveUser(User user) {
+        this.userRepository.save(user);
+
     }
 
 

@@ -5,7 +5,6 @@ import com.blog.storiesblog.model.User;
 import com.blog.storiesblog.repository.UserRepository;
 import com.blog.storiesblog.service.CustomUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,18 +41,14 @@ public class RegisterController {
                     "This username is already taken");
         }
         if (bindingResult.hasErrors()) {
-            System.err.println("New user did not validate");
-            return "registerForm";
+            System.err.println("New user not validated"); // for our use only
+            return "register";
         }
 
-        //encoding pass and saving user
-        String encodedPass = new BCryptPasswordEncoder().encode(user.getPassword());
-        user.setPassword(encodedPass);
-        userRepository.save(user);
 
 
-        //saving role for user
-        this.userDetailsService.saveUserRole(user);
+        //saving user and role for new user
+        this.userDetailsService.saveUserAndRole(user);
 
         return "redirect:/";
     }

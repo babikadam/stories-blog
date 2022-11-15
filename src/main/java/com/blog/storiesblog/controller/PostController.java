@@ -1,11 +1,11 @@
 package com.blog.storiesblog.controller;
 
 import com.blog.storiesblog.model.Post;
+import com.blog.storiesblog.model.User;
 import com.blog.storiesblog.service.CommentService;
-import com.blog.storiesblog.service.CustomUserServiceImpl;
+import com.blog.storiesblog.service.CustomUserService;
 import com.blog.storiesblog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,18 +16,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class PostController {
 
     PostService postService;
     CommentService commentService;
-    CustomUserServiceImpl userService;
+    CustomUserService userService;
 
     @Autowired
     public PostController(PostService postService,
                           CommentService commentService,
-                          CustomUserServiceImpl userService) {
+                          CustomUserService userService) {
         this.postService = postService;
         this.commentService = commentService;
         this.userService = userService;
@@ -44,22 +46,30 @@ public class PostController {
     @GetMapping("/posts/addNewPost")
 //    @PreAuthorize("hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
     public String addNewPost (Model model,
-                              Principal principal){
-        String authUsername = "anonymousUser";
-        if (principal != null) {
-            authUsername = principal.getName();
+                              Principal principal) {
+        String authUsername = principal.getName();
+        System.err.println(userService.isUserInRole("ADMIN"));
+        if (userService.isAllowed(principal.getName(), principal)) {
+            //returning true if ADMIN access
+//            String role = "ADMIN";
+            model.addAttribute("post", new Post());
+            model.addAttribute("authUsername", authUsername);
+
+            return "/posts/newPost";
         }
-
-        model.addAttribute("post", new Post());
-        model.addAttribute("authUsername", authUsername);
-
-        return "/posts/newPost";
+        return "You are not authorized!";
     }
+
+
 
     @PostMapping("/posts/savePost")
 //    @PreAuthorize("userService.hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
     public String savePost (@Valid @ModelAttribute Post post,
-                            BindingResult bindingResult){
+                            BindingResult bindingResult, Principal principal){
+
+
+        //checking input
+        System.err.println("POST post: " + post);           // debug
         if(bindingResult.hasErrors()){
             return "/posts/newPost";
         }

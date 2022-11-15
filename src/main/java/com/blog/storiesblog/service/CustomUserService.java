@@ -4,11 +4,16 @@ import com.blog.storiesblog.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.management.relation.RoleNotFoundException;
+import java.security.Principal;
 import java.util.Optional;
 
 public interface CustomUserService extends UserDetailsService {
     Optional<User> findByUsername(String username);
 
-    User saveUserRole(User user) throws RoleNotFoundException;
+    User saveUserAndRole(User user) throws RoleNotFoundException;
+
+    boolean isAllowed(String username, Principal principal);
+
+    public boolean isUserInRole(String role);
 
 }

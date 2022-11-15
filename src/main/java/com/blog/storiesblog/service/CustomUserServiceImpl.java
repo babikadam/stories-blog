@@ -10,9 +10,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.RoleNotFoundException;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +23,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserServiceImpl implements CustomUserService {
+    //role for every registered user
+    // "USER_ROLE" = 2 , ADMIN_ROLE = 1
 
-    private final String DEFAULT_ROLE = "USER_ROLE";
+    private final Long DEFAULT_ROLE = 2L;
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 
@@ -42,14 +46,6 @@ public class CustomUserServiceImpl implements CustomUserService {
             return user.get();
         }
 
-        //User user = optionalUser.get();
-
-//        List<GrantedAuthority> grantedAuthorities = user.getRoles()
-//                .stream()
-//                .map(role -> new SimpleGrantedAuthority(role.getName()))
-//                .collect(Collectors.toList());
-
-
     }
 
 
@@ -59,15 +55,32 @@ public class CustomUserServiceImpl implements CustomUserService {
     }
 
     @Override
-    public User saveUserRole(User user) throws RoleNotFoundException {
-        Optional<Role> optionalRole = this.roleRepository.findRoleByName(DEFAULT_ROLE);
+    public User saveUserAndRole(User user) throws RoleNotFoundException {
+        Optional<Role> optionalRole = this.roleRepository.findRoleById(DEFAULT_ROLE);
         if (optionalRole.isPresent()) {
             Role role = optionalRole.get();
             Collection<Role> roles = Collections.singletonList(role);
             user.setRoles(roles);
+
+            //encoding pass for new user
+            String encodedPass = new BCryptPasswordEncoder().encode(user.getPassword());
+            user.setPassword(encodedPass);
+
             return this.userRepository.saveAndFlush(user);
         } else {
             throw new RoleNotFoundException("Default role not found for blog user with username " + user.getUsername());
         }
     }
+
+    @Override
+    public boolean isAllowed(String username, Principal principal) {
+        return false;
+    }
+
+    @Override
+    public boolean isUserInRole(String role) {
+        return false;
+    }
+
+
 }

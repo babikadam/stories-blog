@@ -1,6 +1,8 @@
 package com.blog.storiesblog.model;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -10,6 +12,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+//static annotation processing, so I can access user-related methods in post controller
+@Data
 @Entity
 @Table(name = "posts")
 public class Post {
@@ -49,10 +53,16 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
+////    @NotNull
+//    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+////    @NotEmpty(message = "User cannot be empty")
+//////    @JoinColumn( name = "author", referencedColumnName = "username", nullable = false)
+   private User user;
+
     public Post() {
 
     }
-
     public long getId() {
         return id;
     }
@@ -108,4 +118,12 @@ public class Post {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    //debugging new post
+//    @Override
+//    public String toString() {
+//        return "id=" + id + ", postTitle='" + postTitle + ", content='" + content + '\'' +
+//                ", username=" + user.getUsername() +
+//                ", user=" + user.getId();
+//    }
 }

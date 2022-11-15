@@ -8,8 +8,14 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     </head>
     <body>
-        <h1 class="title is-1" align="center">Add a new Post</h1>
 
+    <section class="hero is-primary is-small">
+        <div class="hero-body has-text-centered">
+            <p class="title">
+                Add a new Post
+            </p>
+        </div>
+    </section>
         <br>
 
     <form action="#" th:action="@{/posts/savePost}" th:object="${post}" method="post">
@@ -19,7 +25,6 @@
 
         <br>
         <br>
-
 
         <textarea class="textarea", rows="10" th:field="*{content}" placeholder="Insert your content here"></textarea>
         <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
@@ -32,7 +37,7 @@
 
         <br>
 
-        <button class="button" type="submit"> Save post</button>
+        <button class="button" type="submit"> Submit a post</button>
         <input type="hidden" th:field="*{id}">
 
     </form>

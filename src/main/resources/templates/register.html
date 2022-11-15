@@ -1,25 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>New user</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-<form action="#" th:action="@{/register}" th:object="${user}" method="post">
-    <ul>
-        <li>
-            <input type="email" name="email" th:field="*{email}" id="email" placeholder="User email" required="true" autofocus="true"/>
-        </li>
-        <li>
-            <input type="text" name="username" th:field="*{username}" id="username" placeholder="Username" required="true"/>
-        </li>
-        <li>
-            <input type="password" name="password" th:field="*{password}" id="password" placeholder="Password" required="true"/>
-        </li>
-        <div>
-            <button type="submit">Submit</button>
-        </div>
-    </ul>
-</form>
+
+<section class="hero is-primary is-small">
+    <div class="hero-body has-text-centered">
+        <p class="title">
+            Please enter you information
+        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+        <input type="email" name="email" th:field="*{email}" id="email" placeholder="User email" required="true" autofocus="true"/>
+            <br>
+            <br>
+        <input type="text" name="username" th:field="*{username}" id="username" placeholder="Username" required="true"/>
+            <br>
+            <br>
+        <input type="password" name="password" th:field="*{password}" id="password" placeholder="Password" required="true"/>
+            <br>
+            <br>
+        <button class="button is-light" type="submit">Register</button>
+        </form>
+        </p>
+        <br>
+        <a class="has-text-centered" th:href="@{/}" ><button class="button is-light">Go back to the main page</button></a>
+    </div>
+    </div>
+    </div>
+</section>
 </body>
 </html>

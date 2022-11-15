@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-                xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
 
     <style>
@@ -50,18 +50,18 @@
 
 <div class="container">
     <div style="height:200px;">
-    <br>
-
-
-    <p th:if="${listOfPosts.isEmpty()}">
         <br>
-        <span>Currently there are no posts in this blog !</span>
-    </p>
-    <br>
 
-                    <!--    FOR THE LIST OF POSTS-->
 
-    <span th:unless="${listOfPosts.size() < 1}">
+        <p th:if="${listOfPosts.isEmpty()}">
+            <br>
+            <span>Currently there are no posts in this blog !</span>
+        </p>
+        <br>
+
+        <!--    FOR THE LIST OF POSTS-->
+
+        <span th:unless="${listOfPosts.size() < 1}">
                 <span th:each="post : ${listOfPosts}">
                     <br>
                      <h2 class="notification is-info has-text-centered title" th:text="${post.postTitle}"></h2>
@@ -75,7 +75,7 @@
                      <br>
                     <span th:text="'Last Updated: ' + ${post.updateDate.toLocaleString()}"></span>
                      <br>
-<!--                    Restricting visiting users not to see post buttons  -->
+                    <!--                    Restricting visiting users not to see post buttons  -->
                     <div sec:authorize="isAuthenticated()">
                             <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning is-small">Update post</button></a>
                             <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger is-small">Delete post</button></a>
@@ -84,12 +84,14 @@
                     <!--   End of visibility posts buttons restriction             -->
                         <hr>
 
-<!--                    Restricting visiting users not to see comments -->
+                    <!--                    Restricting visiting users not to see comments -->
                     <div sec:authorize="isAuthenticated()">
 
                         <!--   FOR THE COMMENT LIST                  -->
-                <p class="subtitle notification is-warning"> Comment List: </p>
-            <span th:each="comment : ${listOfComments}">
+
+                <p class="notification"> Comment List: </p>
+
+                <span th:each="comment : ${listOfComments}">
 
                     <span th:if="${post.id == comment.post.getId()}">  <!-- THIS CONDITION CHECK THE POST.ID IS EQUAL TO COMMENT ID SO THAT IT ONLY SHOWS COMMENTS FOR SPECIFIC POST -->
 
@@ -97,7 +99,7 @@
 
                         <br>
 
-                        <span class="summary wr" th:text="${comment.commentContent}"></span>
+                        <span class="border wr" th:text="${comment.commentContent}"></span>
 
                         <br>
                         <br>
@@ -105,19 +107,21 @@
                         <p th:text="'Commented on: ' + ${comment.commentDate.toLocaleString()}"></p>
 
                         <br>
-                            <a th:if="${comment.author == #authentication.name} or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
-                               th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning is-small">Update comment</button></a>
 
-                            <a th:if="${comment.author == #authentication.name } or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
-                               th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger is-small">Delete comment</button></a>
+                        <a th:if="${comment.author == #authentication.name} or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
+                           th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning is-small">Update comment</button></a>
+
+                        <a th:if="${comment.author == #authentication.name } or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
+                           th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger is-small">Delete comment</button></a>
+
                         <hr>
-                            </span>
+                        </span>
                     </span>
                 </div>   <!-- end of comments visibility restrictions -->
                 </span>
             </span>
-    </span>
+        </span>
     </div>
-    </div>
-    </body>
+</div>
+</body>
 </html>

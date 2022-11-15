@@ -8,7 +8,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     </head>
     <body>
-        <h1 class="title is-1" align="center">Edit post</h1>
+    <section class="hero is-primary is-small">
+        <div class="hero-body has-text-centered">
+            <p class="title">
+                Edit Post
+            </p>
+        </div>
+    </section>
+    <br>
 
         <form action="#" th:action="@{/posts/savePost}" th:object="${post}" method="post">
 
@@ -33,7 +40,7 @@
 
             <input type="hidden" th:field="*{id}"> <!--Add hidden form filled to handle update-->
 
-            <button class="button" type="submit"> Update post</button>
+            <button class="button" type="submit"> Update comment</button>
 
         </form>
 

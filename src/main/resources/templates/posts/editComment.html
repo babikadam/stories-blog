@@ -9,7 +9,14 @@
 
     <body>
 
-    <h1 class="title has-text-centered">Edit comment</h1>
+    <section class="hero is-primary is-small">
+        <div class="hero-body has-text-centered">
+            <p class="title">
+                Edit comment
+            </p>
+        </div>
+    </section>
+    <br>
 
     <form action="#" th:action="@{/comment/{id}(id=${comment.id})}" th:object="${comment}" method="post">
 

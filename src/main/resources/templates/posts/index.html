@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Post homepage</title>
+    <title>Homepage</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
@@ -29,7 +29,7 @@
                     <span class="has-text-justified" th:text="${post.content}"></span>
                     <br>
                     <br>
-                    <span th:text="'Author: ' + ${post.author}"></span>
+                    <span th:text="'Author: ' + ${post.getAuthor()}"></span>
                     <br>
                     <span th:text="'Posted: ' + ${post.postDate.toLocaleString()}"></span>
                      <br>
@@ -37,8 +37,8 @@
                      <br>
 <!--                    Restricting visiting users not to see post buttons  -->
                     <div sec:authorize="isAuthenticated()">
-                            <a th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning">Update post</button></a>
-                            <a th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger">Delete post</button></a>
+                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/editPost/{id}(id=${post.id})}"><button class="button is-warning">Update post</button></a>
+                            <a sec:authorize="hasRole('ADMIN_ROLE')" th:href="@{/posts/deletePost/{id}(id=${post.id})}"><button class="button is-danger">Delete post</button></a>
                             <a th:href="@{/comment/{id}(id=${post.id})}"><button class="button is-link"> Add a comment </button></a>
                     </div>
                     <!--   End of visibility posts buttons restriction             -->
@@ -57,11 +57,14 @@
                         <br>
                             <span th:text="'Commented on: ' + ${comment.commentDate.toLocaleString()}"></span>
                         <hr>
-                            <span th:text="${comment.commentContent}"></span>
+                            <blockquote th:text="${comment.commentContent}"></blockquote>
                         <hr>
 
-                            <a th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning">Update comment</button></a>
-                            <a th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger">Delete comment</button></a>
+                            <a th:if="${comment.author == #authentication.name} or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
+                               th:href="@{/posts/editComment/{id}(id=${comment.id})}"><button class="button is-warning">Update comment</button></a>
+
+                            <a th:if="${comment.author == #authentication.name } or ${#authorization.expression('hasRole(''ADMIN_ROLE'')')}"
+                               th:href="@{/posts/deleteComment/{id}(id=${comment.id})}"><button class="button is-danger">Delete comment</button></a>
 
                             <br>
                             <br>

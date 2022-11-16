@@ -42,7 +42,6 @@ public class CustomUserServiceImpl implements CustomUserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
 
-
         if(!optionalUser.isPresent()) {
             throw new UsernameNotFoundException("User not found");
         }
@@ -54,12 +53,12 @@ public class CustomUserServiceImpl implements CustomUserService {
                     .map(role -> new SimpleGrantedAuthority((role.getRole())))
                     .collect(Collectors.toList());
         System.err.printf(user.getUsername() +"\n" +  user.getPassword() +"\n" + grantedAuthorities);
-            return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                                                                          user.getPassword(), grantedAuthorities);
-
+            return new org.springframework.security.core.userdetails.User(
+                    user.getUsername(),
+                    user.getPassword(),
+                    grantedAuthorities);
 
     }
-
 
     @Override
     public Optional<User> findByUsername(String username) {
@@ -81,20 +80,6 @@ public class CustomUserServiceImpl implements CustomUserService {
             return this.userRepository.saveAndFlush(user);
         } else {
             throw new RoleNotFoundException("Default role not found for blog user with username " + user.getUsername());
-        }
-    }
-
-    @Override
-    public boolean isAllowed(String username, Principal principal) {
-        return false;
-    }
-
-    @Override
-    public boolean isUserInRole(String role) {
-        if (role.equals("ADMIN")) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -132,6 +117,5 @@ public class CustomUserServiceImpl implements CustomUserService {
         this.userRepository.save(user);
 
     }
-
 
 }

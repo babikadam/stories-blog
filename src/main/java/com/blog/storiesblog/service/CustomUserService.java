@@ -13,10 +13,6 @@ public interface CustomUserService extends UserDetailsService {
 
     User saveUserAndRole(User user) throws RoleNotFoundException;
 
-    boolean isAllowed(String username, Principal principal);
-
-    public boolean isUserInRole(String role);
-
     List<User> getAllUsers();
 
     void deleteUserById (long id);

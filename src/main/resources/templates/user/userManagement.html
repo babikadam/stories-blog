@@ -36,7 +36,7 @@
         <td th:text="${user.id}"></td>
         <td th:text="${user.getUsername()}"></td>
 <!--        <td th:text="${#authentication.principal.authorities}"></td>-->
-         <td th:text="${user.toString()}"></td>
+         <td th:text="${user.rolesForManagement()}"></td>
         <td>
           <a th:href="@{/user/editUser/{id}(id=${user.id})}"><button class="button is-link is-small">Edit User</button></a>
             <br>

@@ -5,6 +5,7 @@ import com.blog.storiesblog.service.CommentService;
 import com.blog.storiesblog.service.CustomUserService;
 import com.blog.storiesblog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/addNewPost")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String addNewPost (Model model
 //            ,Principal principal
     ) {
@@ -52,9 +54,8 @@ public class PostController {
     }
 
 
-
-
     @PostMapping("/posts/savePost")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String savePost (@Valid @ModelAttribute Post post,
                             BindingResult bindingResult){
 
@@ -70,6 +71,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/editPost/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String editPost (@PathVariable(value="id") long id, Model model){
 //        String authUsername = principal.getName();
         Post post = postService.getPostById(id);
@@ -82,6 +84,7 @@ public class PostController {
 
 
     @GetMapping("/posts/deletePost/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String deletePost (@PathVariable(value="id") long id, Model model){
         postService.deletePostById(id);
 

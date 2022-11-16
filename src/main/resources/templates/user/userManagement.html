@@ -32,10 +32,11 @@
 
       <tbody>
       <tr th:each="user : ${listOfUsers}">
+
         <td th:text="${user.id}"></td>
         <td th:text="${user.getUsername()}"></td>
 <!--        <td th:text="${#authentication.principal.authorities}"></td>-->
-         <td th:text="${user.getRoles()}"></td>
+         <td th:text="${user.toString()}"></td>
         <td>
           <a th:href="@{/user/editUser/{id}(id=${user.id})}"><button class="button is-link is-small">Edit User</button></a>
             <br>

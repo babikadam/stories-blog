@@ -109,5 +109,8 @@ public class User implements UserDetails {
         return roles;
     }
 
-
+    @Override
+    public String toString() {
+        return this.getRoles().toString().replaceAll("\\[[Role]{4}\\(", "").replaceAll("\\)\\]", "");
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 //@Data fixed getting data to post controller
 @Data
@@ -107,5 +108,6 @@ public class User implements UserDetails {
     public Collection<Role> getRoles() {
         return roles;
     }
+
 
 }

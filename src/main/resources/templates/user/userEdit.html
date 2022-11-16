@@ -29,15 +29,15 @@
     <input class="input" type="text" th:field="*{email}" placeholder="Username">
     <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></p>
 
-<!--    <br>-->
-<!--    <br>-->
 
-<!--    <input class="input" type="text" th:field="*{password}" placeholder="Username">-->
+    <input type="text" name="password" value="user" th:value="*{password}" style="visibility: hidden">
+<!--    <input class="input" type="text" th:field="*{password}" placeholder="Username" style="visibility:hidden">-->
+    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>
+<!--    <input class="input" type="text" th:field="${*password}" style="visibility:hidden">-->
 <!--    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></p>-->
 
     <br>
-    <br>
-    <text>Role (1 - Admin, 2 - User</text>
+    <text>Role (1 - Admin, 2 - Moderator, 3 - User</text>
     <input class="input" type="text" th:field="*{roles}" placeholder="Type the role"></input>
     <p th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></p>
 

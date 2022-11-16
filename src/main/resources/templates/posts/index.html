@@ -139,7 +139,7 @@
                         </a>
 <!--                    DELETE COMMENT BUTTON                                           -->
                         <a th:if="${comment.author == #authentication.name } or
-                        ${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}"
+                        ${#authorization.expression('hasAnyAuthority(''ROLE_ADMIN'', ''ROLE_MODERATOR'')')}"
                            th:href="@{/posts/deleteComment/{id}(id=${comment.id})}">
                             <button class="button is-danger is-small">Delete comment</button>
                         </a>

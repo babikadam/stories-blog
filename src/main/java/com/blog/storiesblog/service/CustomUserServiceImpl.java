@@ -28,7 +28,7 @@ public class CustomUserServiceImpl implements CustomUserService {
     //role for every registered user
     // "USER_ROLE" = 2 , ADMIN_ROLE = 1
 
-    private final Long DEFAULT_ROLE = 2L;
+    private final Long DEFAULT_ROLE = 3L;
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 

@@ -19,8 +19,9 @@
   </div>
 
 <br>
+</section>
 
-<table>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
 
       <thead>
       <th>User ID</th>
@@ -35,13 +36,15 @@
         <td th:text="${user.getUsername()}"></td>
         <td th:text="${#authentication.principal.authorities}"></td>
         <td>
-          <a th:href="@{/user/editUser/{id}(id=${user.id})}">Edit User</a>
-          <a th:href="@{/user/deleteUser/{id}(id=${user.id})}">Delete User</a>
+          <a th:href="@{/user/editUser/{id}(id=${user.id})}"><button class="button is-link is-small">Edit User</button></a>
+            <br>
+            <br>
+            <a th:href="@{/user/deleteUser/{id}(id=${user.id})}"><button class="button is-danger is-small">Delete User</button></a>
         </td>
       </tr>
       </tbody>
     </table>
-</section>
+
 <br>
       <button class="button" type="submit">
         <a th:href="@{/}">Back to main page</a>

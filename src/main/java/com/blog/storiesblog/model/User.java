@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -20,14 +22,18 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
+    @NotEmpty(message = "Username cannot be empty !")
+    @Size(min= 3, max = 50, message = "Username should be 3 - 20 characters long!")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @NotEmpty(message = "Password cannot be empty !")
+    @Size(min= 3, max = 50, message = "Password should be 3 - 20 characters long!")
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Email(message = "Incorrect email format, email should look like example@example.example")
     @Column (name = "email", nullable = false)
-    @Email
     private String email;
 
 //    @OneToMany(mappedBy = "user")

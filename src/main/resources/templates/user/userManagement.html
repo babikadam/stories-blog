@@ -19,8 +19,9 @@
   </div>
 
 <br>
+</section>
 
-<table>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
 
       <thead>
       <th>User ID</th>
@@ -36,13 +37,15 @@
 <!--        <td th:text="${#authentication.principal.authorities}"></td>-->
          <td th:text="${user.getRoles()}"></td>
         <td>
-          <a th:href="@{/user/editUser/{id}(id=${user.id})}">Edit User</a>
-          <a th:href="@{/user/deleteUser/{id}(id=${user.id})}">Delete User</a>
+          <a th:href="@{/user/editUser/{id}(id=${user.id})}"><button class="button is-link is-small">Edit User</button></a>
+            <br>
+            <br>
+            <a th:href="@{/user/deleteUser/{id}(id=${user.id})}" th:data-confirm-delete="|Are you sure you want to delete user ${user.username}?|" onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" ><button class="button is-danger is-small">Delete User</button></a>
         </td>
       </tr>
       </tbody>
     </table>
-</section>
+
 <br>
       <button class="button" type="submit">
         <a th:href="@{/}">Back to main page</a>

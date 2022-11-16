@@ -6,6 +6,7 @@ import com.blog.storiesblog.service.CommentService;
 import com.blog.storiesblog.service.CustomUserServiceImpl;
 import com.blog.storiesblog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,12 +40,14 @@ public class LoginController {
     }
 
     @GetMapping("/user/userManagement")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String userManagement (Model model){
         model.addAttribute("listOfUsers", userService.getAllUsers());
         return "/user/userManagement";
     }
 
     @GetMapping("/user/deleteUser/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String deleteUser (@PathVariable(value="id") long id, Model model){
         userService.deleteUserById(id);
 
@@ -54,7 +57,7 @@ public class LoginController {
 
 
     @GetMapping("/user/editUser/{id}")
-//    @PreAuthorize("hasRole('ADMIN_ROLE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String editPost (@PathVariable(value="id") long id, Model model){
 
         User user = userService.getUserById(id);
@@ -65,9 +68,8 @@ public class LoginController {
 
     }
 
-
     @PostMapping("/user/saveUser")
-//    @PreAuthorize("userService.hasAnyRole('ADMIN_ROLE', 'USER_ROLE')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     public String saveUser (@Valid @ModelAttribute User user,
                             BindingResult bindingResult) throws RoleNotFoundException {
         if(bindingResult.hasErrors()){

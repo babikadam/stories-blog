@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>User Management System</title>
-  </head>
-  <body>
-    <h1>User Management System</h1>
-    <h2>User list</h2>
-    <p th:if="${listOfUsers.isEmpty()}">
-      There is no user!
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<section class="hero is-primary is-small">
+  <div class="hero-body has-text-centered">
+    <p class="title">
+      User Management System
     </p>
-    <table th:unless="${listOfUsers.isEmpty()}">
+
+    <p class="subtitle">
+      User list
+    </p>
+  </div>
+
+<br>
+</section>
+
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
 
       <thead>
       <th>User ID</th>
       <th>Username</th>
-      <th>Role</th>
+<!--      <th>Role</th>-->
       <th>Actions</th>
       </thead>
 
@@ -23,14 +34,21 @@
       <tr th:each="user : ${listOfUsers}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.getUsername()}"></td>
-        <td th:text="${user.getRoles()}"></td>
+<!--        <td th:text="${#authentication.principal.authorities}"></td>-->
         <td>
-          <a th:href="@{/user/editUser/{id}(id=${user.id})}">Edit User</a>
-          <a th:href="@{/user/deleteUser/{id}(id=${user.id})}">Delete User</a>
+          <a th:href="@{/user/editUser/{id}(id=${user.id})}"><button class="button is-link is-small">Edit User</button></a>
+            <br>
+            <br>
+            <a th:href="@{/user/deleteUser/{id}(id=${user.id})}" th:data-confirm-delete="|Are you sure you want to delete user ${user.username}?|" onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" ><button class="button is-danger is-small">Delete User</button></a>
         </td>
       </tr>
       </tbody>
     </table>
-    <a th:href="@{/}">Back to main page</a>
+
+<br>
+      <button class="button" type="submit">
+        <a th:href="@{/}">Back to main page</a>
+      </button>
+
   </body>
 </html>

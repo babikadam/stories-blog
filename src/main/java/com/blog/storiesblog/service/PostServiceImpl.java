@@ -1,13 +1,16 @@
 package com.blog.storiesblog.service;
 
+import com.blog.storiesblog.model.Favourite;
 import com.blog.storiesblog.model.Post;
 import com.blog.storiesblog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -54,6 +57,12 @@ public class PostServiceImpl implements PostService {
             throw new IllegalStateException("Post with id " + id + " does not exist !");
         }
         this.postRepository.deleteById(id);
+    }
+
+    @Override
+    public void getLikeCountForPost(Post post) {
+        List<Post> postFav = post.getFavourites();
+        postFav.stream().filter(postid -> post.getId().).collect(Collectors.toList())
     }
 
 }

@@ -1,5 +1,6 @@
 package com.blog.storiesblog.service;
 
+import com.blog.storiesblog.model.Favourite;
 import com.blog.storiesblog.model.Post;
 
 import java.util.List;
@@ -13,5 +14,7 @@ public interface PostService {
     Post getPostById (long id);
 
     void deletePostById (long id);
+
+    void getLikeCountForPost(Post post);
 
 }

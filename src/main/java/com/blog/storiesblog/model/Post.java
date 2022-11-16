@@ -2,6 +2,7 @@ package com.blog.storiesblog.model;
 
 
 import lombok.Data;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -50,8 +51,18 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "post_like",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "id")}
+    )
+    private List<Post> favourites;
+
 
 //   @NotNull
 //   @ManyToOne
@@ -120,7 +131,15 @@ public class Post {
         this.comments = comments;
     }
 
-    //debugging new post
+    public List<Post> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<Post> favourites) {
+        this.favourites = favourites;
+    }
+
+//debugging new post
 //    @Override
 //    public String toString() {
 //        return "id=" + id + ", postTitle='" + postTitle + ", content='" + content + '\'' +

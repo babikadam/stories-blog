@@ -39,7 +39,7 @@
           <a th:href="@{/user/editUser/{id}(id=${user.id})}"><button class="button is-link is-small">Edit User</button></a>
             <br>
             <br>
-            <a th:href="@{/user/deleteUser/{id}(id=${user.id})}"><button class="button is-danger is-small">Delete User</button></a>
+            <a th:href="@{/user/deleteUser/{id}(id=${user.id})}" th:data-confirm-delete="|Are you sure you want to delete user ${user.username}?|" onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false" ><button class="button is-danger is-small">Delete User</button></a>
         </td>
       </tr>
       </tbody>

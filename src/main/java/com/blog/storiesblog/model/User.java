@@ -115,7 +115,11 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public String rolesForManagement() {
-        return this.getRoles().toString().replaceAll("\\[[Role]{4}\\(", "").replaceAll("\\)\\]", "");
+    //for listing only roles inside user management page
+    public List<String> rolesForManagement() {
+        return this.getRoles()
+                .stream()
+                .map(role -> new String((role.getRole())))
+                .collect(Collectors.toList());
     }
 }
